@@ -12,11 +12,11 @@ export default function Navbar(){
     ]
 
     return (
-        <nav className={"lg:flex justify-center p-4 bg-gradient-to-t from-background to-background-dark"}>
+        <nav className={"lg:flex justify-center p-4 bg-gradient-to-t from-transparent via-background-dark to-background-dark"}>
             <h1 className="text-center text-3xl mx-4">KOLPPANEN.COM</h1>
             <div className="flex flex-col sm:flex-row justify-center items-center mt-2 lg:mt-0">
                 {links.map(link => 
-                    <Link key={link.name} href={link.href} className="text-xl my-1 sm:mx-4 sm:my-0">{link.name}</Link>
+                    <Link key={link.name} href={link.href} className="hover:text-stone-white text-xl my-1 sm:mx-4 sm:my-0">{link.name}</Link>
                     )}
             </div>
         </nav>

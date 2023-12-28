@@ -13,10 +13,9 @@ const config: Config = {
     extend: {
       colors: {
         background: {
-          dark: colors.stone['950'],
-          DEFAULT: colors.stone['800'],
           light: colors.stone['700'],
-          text: colors.stone['200'],
+          DEFAULT: colors.stone['800'],
+          dark: colors.stone['950'],
         },
         status: {
           offline: colors.red['600'],
@@ -24,6 +23,13 @@ const config: Config = {
           loading: colors.amber['500'],
           unknown: colors.stone['400'],
         },
+        stone:{
+          white: colors.stone['50'],
+          light: colors.stone['200'],
+          gray: colors.stone['300'],
+          dark: colors.stone['400'],
+          black: colors.stone['950'],
+        }
       },
       textShadow: {
         sm: '0 1px 2px var(--tw-shadow-color)',
