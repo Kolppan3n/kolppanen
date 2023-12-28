@@ -1,5 +1,5 @@
 import ServerList from "./components/ServerList"
-import NewsFeed from "./components/NewsFeed"
+import BulletinBoard from "./components/BulletinBoard"
 
 export default function Home() {
   return (
@@ -13,8 +13,8 @@ export default function Home() {
         <ServerList/>
       </article>
       <article className="mb-10 max-w-6xl">
-        <h1 className="text-center text-header mb-4">Uutiset</h1>
-        <NewsFeed/>
+        <h1 className="text-center text-header mb-4">Ilmoitukset</h1>
+        <BulletinBoard/>
       </article>
     </main>
     )

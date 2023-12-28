@@ -5,7 +5,7 @@ export default function Navbar(){
     const links = [
         {href:"/", name:"Koti"},
         {href:"/", name:"Palvelimet"},
-        {href:"/", name:"Päivitykset"},
+        {href:"/", name:"Ilmoitukset"},
         {href:"/", name:"Pelaajat"},
         {href:"/", name:"Muuta"},
         {href:"/", name:"Yhteystiedot"}

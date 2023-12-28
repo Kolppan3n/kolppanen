@@ -22,23 +22,18 @@ const servers: Server[] = [
    {id: 3, name: "Stardew Valley", imgpath: "img/logo_stardewvalley.png", version: "1.5.6", status: "loading", runtime: 0, playercount: 2}
 ]
 
-
+const statusColors = {
+    offline: "bg-status-offline",
+    online: "bg-status-online",
+    loading: "bg-status-loading",
+    unknown: "bg-status-unknown"
+}
 
 const StatusBlip = (props: {status: Status}) => {
-    const bgStatus = (status:Status) => 
-	{
-		    const statuses: {[K in Status]: string} =
-		    {
-	            offline: "bg-status-offline",
-	            online: "bg-status-online",
-	            loading: "bg-status-loading",
-                unknown: "bg-status-unknown"
-	        };
-	    return statuses[status] || "bg-status-unknown"
-    }
-    
+    const statusColor = statusColors[props.status]
+
     return (
-        <div className={`h-6 w-6 shadow-md shadow-stone-800 rounded-[100%] ${bgStatus(props.status)}`}/>
+        <div className={`h-6 w-6 shadow-md shadow-stone-800 rounded-[100%] ${statusColor}`}/>
     )
 }
 

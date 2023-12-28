@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import React from 'react'
 
 type Update = {
@@ -46,7 +47,7 @@ const updates: Update[] = [
     }
 ]
 
-export default function NewsFeed() {
+export default function BulletinBoard() {
   return (
     <div className='overflow-y-auto max-h-xl'>
         {updates.map((update) => {
@@ -60,7 +61,7 @@ export default function NewsFeed() {
                     </div>
                     {update.paragraphs.map((paragraph) => {
                         return(
-                            <p className='text-lg max-w-prose mb-2'>{paragraph}</p>
+                            <p key={nanoid()} className='text-lg max-w-prose mb-2'>{paragraph}</p>
                         )
                     })}
                 </div>
