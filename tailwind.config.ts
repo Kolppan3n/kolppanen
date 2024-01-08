@@ -19,7 +19,7 @@ const config: Config = {
         },
         status: {
           offline: colors.red['600'],
-          online: colors.green['600'],
+          running: colors.green['600'],
           loading: colors.amber['500'],
           unknown: colors.stone['400'],
         },

@@ -1,7 +1,7 @@
 import React from 'react'
 import {BiHistory, BiUser} from 'react-icons/bi'
 
-type Status = 'offline' | 'online' | 'loading' | 'unknown'
+type Status = 'offline' | 'running' | 'loading' | 'unknown'
 
 type Server = {
     id: any,
@@ -15,15 +15,34 @@ type Server = {
 
 const statusColors = {
     offline: 'bg-status-offline',
-    online: 'bg-status-online',
+    running: 'bg-status-running',
     loading: 'bg-status-loading',
     unknown: 'bg-status-unknown'
 }
 
-async function getServers(){
+function formatToDHM(time: number){
+    if(time <= 0)
+        return '---'
 
-    const servers: Server [] = []
-    
+    //converting ms to seconds
+    time = time / 1000
+
+    const day = 86400
+    const hour = 3600
+    const minute = 60
+
+    const wholeDays = Math.floor(time / day)
+    const wholeHours = Math.floor((time - wholeDays * day) / hour)
+    const wholeMinutes = Math.floor((time - wholeDays * day - wholeHours * hour) /minute)
+
+    const showDays = wholeDays > 0 ? `d${wholeDays} ` : ''
+    const showHours = wholeHours > 0 ? `h${wholeHours} ` : wholeDays > 0 ? `h0 ` : ''
+    const showMinutes = wholeMinutes > 0 ? `m${wholeMinutes}` : wholeHours > 0 ? `m0 ` : ''
+
+    return showDays + showHours + showMinutes
+}
+
+async function getServers(){
     //Haetaan kaikkien servujen yleistiedot
     const response1 = await fetch(`https://panel.kolppanen.com/api/client`, {
         next: {revalidate: 0},
@@ -49,6 +68,7 @@ async function getServers(){
                 'Accept': 'application/json'
             }
         })
+
         const data = await response.json()
         return data
     })
@@ -56,8 +76,35 @@ async function getServers(){
     //suoritetaan haut, jotka palauttavat listan palvelimien muista tiedoista
     const serverData2 = await Promise.all(serverPromises)
 
-    console.log(serverData1)
-    console.log(serverData2)
+    const resp = await fetch(`https://panel.kolppanen.com/api/application/nests/1/eggs/1`, {
+        next: {revalidate: 0},
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${process.env.API_KEY_PTERODACTYL}`,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    })
+
+
+    //Luodaan palautettavat serverit mappaamalla ensimmäinen lista ja lisätään toisesta lisätiedot indeksin avulla
+    const servers: Server[] = serverData1.map((object: any, index: number): any => {
+        const eggVariables = object.attributes.relationships.variables.data
+        const bgPath = eggVariables.find((e: any) => e.attributes.name === 'Server Background Image')?.attributes.default_value
+
+        const server: Server = {
+            id: object.attributes.identifier,
+            name: object.attributes.name,
+            imgpath: bgPath ? bgPath : "img/avatar_weedcat.png",
+            version: '---',
+            status: serverData2[index].attributes.current_state,
+            runtime: formatToDHM(serverData2[index].attributes.resources.uptime),
+            playercount: '---',
+        }
+
+        console.log(server)
+        return server
+    })
 
     return servers
 }
